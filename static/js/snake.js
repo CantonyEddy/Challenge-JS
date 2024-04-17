@@ -41,9 +41,37 @@ window.onload = function(){
 
     function game(){
       snakee.advance();
-      ctx.clearRect(0,0,canvasWidth, canvasHeight);
-      snakee.draw();
-      timeout = setTimeout(game, delay);
+      if (snakee.checkCollision()){
+        gameOver();
+      }
+      else {
+        if (snakee.eatApple()){
+          applee.newPosition();
+          score++;
+          snakee.ateApple = true;
+        }
+        ctx.clearRect(0,0,canvasWidth, canvasHeight);
+        snakee.draw();
+        applee.draw();
+        timeout = setTimeout(game, delay);
+      }
+    }
+
+    function gameOver(){
+      console.log("game over");
+      ctx.save();
+      ctx.font = "bold 70px sans-serif";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.strokeStyle = "white";
+      ctx.lineWidth = "5";
+      ctx.strokeText("Game Over", centreX, centreY - 180);
+      ctx.fillText("Game Over", centreX, centreY - 180);
+      ctx.font = "bold 30px sans-serif";
+      ctx.strokeText("Appuyer sur la touche espace pour rejouer", centreX, centreY - 120);
+      ctx.fillText("Appuyer sur la touche espace pour rejouer", centreX, centreY - 120);
+      ctx.restore();
     }
 
     function drawBlock(ctx, position){
@@ -105,6 +133,32 @@ window.onload = function(){
               this.direction = newDirection;
             }
           };
+          this.checkCollision = function(){
+            let collision = false;
+            const head = this.body[0];
+            const rest = this.body.slice(1);
+            const minX = 0;
+            const minY = 0;
+            const maxX = widthInBlocks-1;
+            const maxY = heightInBlocks-1;
+            if (head[0] < minX || head[0] > maxX || head[1] < minY || head[1] > maxY){
+              collision = true;
+            }
+            for(let i = 0;i < rest.length;i++){
+              if (head[0] == rest[i][0] && head[1] == rest[i][1]){
+                collision = true;
+              }
+            }
+            console.log(collision);
+            return collision;
+          };
+          this.eatApple = function(){
+            const head = this.body[0];
+            if (head[0] == applee.position[0] && head[1] == applee.position[1]){
+              return true;
+            }
+            return false;
+          }
     }
 
     function Apple(position){
@@ -120,29 +174,10 @@ window.onload = function(){
             ctx.fill();
             ctx.restore();
           };
-          this.advance = function(){
-            const nextPosition = this.body[0].slice();
-            switch(this.direction){
-              case "left":
-                nextPosition[0] -= 1;
-                break;
-              case "right":
-                nextPosition[0] += 1;
-                break;
-              case "down":
-                nextPosition[1] += 1;
-                break;
-              case "up":
-                nextPosition[1] -= 1;
-                break;
-              default:
-                throw("Invalid direction");
-            }
-            this.body.unshift(nextPosition);
-            if(!this.ateApple)
-              this.body.pop();
-            else
-              this.ateApple = false;
+          this.newPosition = function(){
+            const X = Math.round(Math.random() * (widthInBlocks - 1));
+            const Y = Math.round(Math.random() * (heightInBlocks - 1));
+            this.position = [X,Y];
           };
     }
 
@@ -161,7 +196,7 @@ window.onload = function(){
         } else if(map[40]){
             newDirection = "down";
         } else if(map[32]){
-            launch();
+            start();
         }
         snakee.setDirection(newDirection);
     }
