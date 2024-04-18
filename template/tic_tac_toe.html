@@ -1,11 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <html lang="en">
 </head>
+
 <body>
-    <h1>route</h1>
+    <div class="instructions">
+        <div class="intro">
+            <p>Click on a square to place your X or O</p>
+            <p>Player 1: X</p>
+            <p>Player 2: O</p>
+        </div>
+        <div class="game">
+            <div class="board">
+                <div class="board-row">
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                </div>
+                <div class="board-row">
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                </div>
+                <div class="board-row">
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                </div>
+            </div>
+        </div>
+        <div class="board">
+            <div class="result"></div>
+        </div>
+        <div class="turns">
+            <div class="turn">Player 1</div>
+            <button onclick="restartGame()" class="restart">Restart</button>
+          </div>
+    </div>
+<script src="../static/js/Tictactoe.js"></script>
 </body>
+
 </html>
