@@ -1,3 +1,15 @@
+const slider = document.getElementById("slider");
+const sliderValue = document.getElementById("sliderValue");
+
+// Mettre à jour la valeur affichée lorsque la valeur de la barre de défilement change
+slider.addEventListener("input", function() {
+    sliderValue.textContent = slider.value;
+});
+
+
+function myFunction() {
+  start();
+}
 window.onload = function(){
     const canvasWidth = 900;
     const canvasHeight = 600;
@@ -39,7 +51,7 @@ window.onload = function(){
       }
 
     function start(){
-        liste = createListFrom1ToN(100);
+        liste = createListFrom1ToN(slider.value);
         liste = shuffle(liste);
         console.log(liste);
         widthBlock = canvasWidth/liste.length;
@@ -76,5 +88,15 @@ window.onload = function(){
         const x = position[0];
         const y = position[1] - height; // ajustez la position y pour que les blocs soient dessinés vers le haut
         ctx.fillRect(x, y, width, height);
+    }
+
+    const map = {}; // Vous pourriez aussi utiliser un tableau
+    onkeydown = onkeyup = function(e){
+        e = e || event; // pour gérer IE
+        map[e.keyCode] = e.type == 'keydown';
+        let newDirection;
+        if(map[32]){
+            start();
+        }
     }
 }
