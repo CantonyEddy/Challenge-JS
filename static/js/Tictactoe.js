@@ -1,3 +1,6 @@
+//A chaque fois que le jeu se lance, recharger la page
+//A chaque fois que le jeu est rechargé, remettre la page à zéro
+
 // select all useful elements
 const boardCells = document.querySelectorAll('.board-cell');
 const turn = document.querySelector('.turn');
@@ -76,7 +79,7 @@ function checkWinner() {
     }
   }
   if (count == 9) {
-    showResult('Tie');
+    showResult('Egality');
     return;
   }
 }
@@ -84,11 +87,11 @@ function checkWinner() {
 // show result
 function showResult(symbol) {
   if (symbol === playerOne) {
-    result.innerHTML = 'Player 1 Win!';
+    result.innerHTML = 'Player 1 Win';
   } else if (symbol === playerTwo) {
-    result.innerHTML = 'Player 2 Win!';
+    result.innerHTML = 'Player 2 Win';
   } else {
-    result.innerHTML = 'Tie!';
+    result.innerHTML = 'Egalité';
   }
   result.style.display = 'flex';
 }
