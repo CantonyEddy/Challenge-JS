@@ -30,6 +30,10 @@ app.get('/visual_sort', (req, res) => {
     res.sendFile(path.join(__dirname, 'template/visual_sort.html'));
 });
 
+app.get('/platformer_2d', (req, res) => {
+    res.sendFile(path.join(__dirname, 'template/platform2d.html'));
+});
+
 // Démarrer le serveur
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
