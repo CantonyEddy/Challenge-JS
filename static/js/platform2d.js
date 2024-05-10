@@ -15,34 +15,31 @@ window.onload = function(){
     let velY = 0;
     let boxes = []
 
-    boxes.push({
-        x: 340,
-        y: 600,
-        width: 200,
-        height: 100,
-        color: '#655643'
-    });
-    boxes.push({
-        x: 540,
-        y: 440,
-        width: 200,
-        height: 400,
-        color: '#655643'
-    });
-    boxes.push({
-        x: 740,
-        y: 600,
-        width: 200,
-        height: 100,
-        color: '#655643'
-    });
-    boxes.push({
-        x: 500,
-        y: 180,
-        width: 280,
-        height: 80,
-        color: '#655643'
-    });
+    let map =  [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,1 ,1],
+                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ,1 ,1],
+                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 ,1 ,1],
+                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1]]
+    for (var i = 0; i < map.length; i++){
+        for (var j = 0; j < map[i].length; j++){
+            if (map[i][j] === 1){
+                boxes.push({
+                    x: j*50,
+                    y: i*50+50,
+                    width: 50,
+                    height: 50,
+                    color: '#655643'
+                });
+            }
+        }
+    }
 
     init();
 
@@ -50,7 +47,7 @@ window.onload = function(){
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         canvas.style.border = "30px solid gray";
-        canvas.style.margin = "50px auto";
+        canvas.style.margin = "30px auto";
         canvas.style.display = "block";
         canvas.style.backgroundColor = "#ddd";
         document.body.appendChild(canvas);
@@ -66,10 +63,20 @@ window.onload = function(){
                 velY = -15;
                 player1.jump = false;
             }
+            if (player1.wallJumpLeft && (keys[39] || keys[68])){
+                velY = -10;
+                velX = 8;
+                player1.wallJumpLeft = false;
+            }
+            if (player1.wallJumpRight && (keys[37] || keys[65])){
+                velY = -10;
+                velX = -8;
+                player1.wallJumpRight = false;
+            }
         }
         if (keys[39] || keys[68]) {
             if (velX < 0){
-                velX = 0;
+                //velX = 0;
             }
             velX += friction;
         }else if (velX > 0){
@@ -80,7 +87,7 @@ window.onload = function(){
         }
         if (keys[37] || keys[65]) {
             if (velX > 0){
-                velX = 0;
+                //velX = 0;
             }
             velX -= friction;
         }else if (velX < 0){
@@ -105,13 +112,13 @@ window.onload = function(){
                 i = 0;
                 player1.jump = true;
                 while (player1.colision_bottom()){
-                    var left_colision = ctx.getImageData(player1.x, player1.y-50, 1, 1);
+                    var left_colision = ctx.getImageData(player1.x, player1.y-20, 1, 1);
                     var pixelData = left_colision.data;
                     var rouge = pixelData[0];
                     var vert = pixelData[1];
                     var bleu = pixelData[2];
                     var couleurHexadecimalLeft = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
-                    var right_colision = ctx.getImageData(player1.x+50, player1.y-50, 1, 1);
+                    var right_colision = ctx.getImageData(player1.x+50, player1.y-20, 1, 1);
                     pixelData = right_colision.data;
                     rouge = pixelData[0];
                     vert = pixelData[1];
@@ -129,7 +136,7 @@ window.onload = function(){
                     vert = pixelData[1];
                     bleu = pixelData[2];
                     var couleurHexadecimalBottomR = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
-                    if (couleurHexadecimalLeft === '#655643' || couleurHexadecimalRight === '#655643'){                        
+                    if (couleurHexadecimalLeft === '#655643' || couleurHexadecimalRight === '#655643'){                     
                         if (couleurHexadecimalBottom === '#000000' || couleurHexadecimalBottomR === '#000000'){
                             player1.jump = false;
                             break;
@@ -141,6 +148,8 @@ window.onload = function(){
                         break;
                     }
                 }
+            }else{
+                player1.jump = false;
             }
         }
         if (velY < 0){
@@ -174,8 +183,22 @@ window.onload = function(){
                     vert = pixelData[1];
                     bleu = pixelData[2];
                     var couleurHexadecimalRight = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
+                    right_colision = ctx.getImageData(player1.x, player1.y-51, 1, 1);
+                    pixelData = right_colision.data;
+                    rouge = pixelData[0];
+                    vert = pixelData[1];
+                    bleu = pixelData[2];
+                    var couleurHexadecimalBottom = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
+                    right_colision = ctx.getImageData(player1.x+50, player1.y-51, 1, 1);
+                    pixelData = right_colision.data;
+                    rouge = pixelData[0];
+                    vert = pixelData[1];
+                    bleu = pixelData[2];
+                    var couleurHexadecimalBottomR = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
                     if (couleurHexadecimalLeft === '#655643' || couleurHexadecimalRight === '#655643'){                        
+                        if (couleurHexadecimalBottom === '#000000' || couleurHexadecimalBottomR === '#000000'){
                             break;
+                        }
                     }
                     player1.y += 0.1;
                     i++;
@@ -185,6 +208,33 @@ window.onload = function(){
                 }
             }
         }
+
+        //check collision wall
+        var left_colision = ctx.getImageData(player1.x-1, player1.y-20, 1, 1);
+        var pixelData = left_colision.data;
+        var rouge = pixelData[0];
+        var vert = pixelData[1];
+        var bleu = pixelData[2];
+        var couleurHexadecimalLeft = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
+        var right_colision = ctx.getImageData(player1.x+51, player1.y-20, 1, 1);
+        pixelData = right_colision.data;
+        rouge = pixelData[0];
+        vert = pixelData[1];
+        bleu = pixelData[2];
+        var couleurHexadecimalRight = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
+        if (couleurHexadecimalLeft === '#655643'){
+            player1.wallJumpLeft = true;
+        }else{
+            player1.wallJumpLeft = false;
+        }
+        if (couleurHexadecimalRight === '#655643'){
+            player1.wallJumpRight = true;
+        }else{
+            player1.wallJumpRight = false;
+        }
+
+        ///////////////////////////////////////
+
         if (velX > max_friction){
             velX = max_friction;
         }
@@ -236,6 +286,8 @@ window.onload = function(){
         this.x = co[0];
         this.y = co[1];
         this.jump = true;
+        this.wallJumpRight = false;
+        this.wallJumpLeft = false;
         this.draw = function(){
            ctx.fillStyle = "#000";
            drawBlock(ctx, [this.x, this.y], 50, 50);
