@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Test de Vitesse de Frappe</title>
+    <link rel="stylesheet" href="../static/css/keyboard_cps.css">
 </head>
 <body>
-    <h1>chevre</h1>
+    <div class="container">
+        <h1>Test de Vitesse de Frappe</h1>
+        <button id="toggle-theme">Mode Sombre</button>
+        <div id="text-container">
+            <p id="text-to-type"></p>
+            <textarea id="user-input" placeholder="Commencez à taper ici..."></textarea>
+        </div>
+        <div id="stats">
+            <p id="time">Temps : 0s</p>
+            <p id="errors">Erreurs : 0</p>
+            <p id="cpm">Touches par minute : 0</p>
+            <p id="wpm">Mots par minute : 0</p>
+        </div>
+        <button id="restart-test">Recommencer le test</button>
+    </div>
+    <div id="results" class="hidden">
+        <h2>Résultats</h2>
+        <div id="previous-tests"></div>
+        <button id="start-new-test">Commencer un nouveau test</button>
+    </div>
+    <script src="../static/js/keyboard_cps.js"></script>
 </body>
 </html>
