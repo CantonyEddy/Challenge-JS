@@ -1,32 +1,48 @@
-// Fonction pour générer un tableau de nombres aléatoires
-function generateArray(size) {
-    const array = [];
-    for (let i = 0; i < size; i++) {
-        array.push(Math.random());
+document.addEventListener("DOMContentLoaded", function() {
+    const gameBoard = document.getElementById('game-board');
+    const startButton = document.getElementById('start-game');
+    let squares = [];
+    let activeSquares = [];
+
+    function createSquares() {
+        const boardRows = document.querySelectorAll('.board-row');
+        boardRows.forEach(row => {
+            const cells = row.querySelectorAll('.board-cell');
+            cells.forEach(cell => {
+                squares.push(cell);
+                cell.addEventListener('click', () => {
+                    toggleActive(cell);
+                });
+            });
+        });
     }
-    return array;
-}
 
-// Fonction pour vider la mémoire
-function clearMemory() {
-    // Affectez null aux variables contenant des données pour libérer la mémoire
-    array = null;
-}
+    function randomlyActivateSquares(numActive) {
+        const shuffledSquares = squares.slice().sort(() => 0.5 - Math.random());
+        activeSquares = shuffledSquares.slice(0, numActive);
+        activeSquares.forEach(square => square.classList.add('active'));
+    }
 
-// Test de mémoire
-function memoryTest() {
-    const arraySize = 1000000; // Taille du tableau
-    let array = generateArray(arraySize); // Générer un tableau de nombres aléatoires
+    function toggleActive(square) {
+        if (square.classList.contains('active')) {
+            square.classList.remove('active');
+            const index = activeSquares.indexOf(square);
+            activeSquares.splice(index, 1);
+        } else {
+            square.classList.add('active');
+            activeSquares.push(square);
+        }
+    }
 
-    // Afficher la consommation de mémoire avant de vider
-    console.log("Mémoire utilisée avant de vider : " + (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + " MB");
+    function clearBoard() {
+        activeSquares.forEach(square => square.classList.remove('active'));
+        activeSquares = [];
+    }
 
-    // Vider la mémoire
-    clearMemory();
-
-    // Afficher la consommation de mémoire après avoir vidé
-    console.log("Mémoire utilisée après avoir vidé : " + (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + " MB");
-}
-
-// Exécuter le test de mémoire
-memoryTest();
+    // Écouteur d'événement pour le bouton de démarrage du jeu
+    startButton.addEventListener('click', () => {
+        createSquares();
+        randomlyActivateSquares(3); // Changez le nombre de carrés actifs au début ici
+        setTimeout(clearBoard, 5000); // Désactive tous les carrés après 5 secondes
+    });
+});

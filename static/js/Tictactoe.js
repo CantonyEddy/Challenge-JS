@@ -1,7 +1,7 @@
 //A chaque fois que le jeu se lance, recharger la page
 //A chaque fois que le jeu est rechargé, remettre la page à zéro
 
-// select all useful elements
+// select elements
 const boardCells = document.querySelectorAll('.board-cell');
 const turn = document.querySelector('.turn');
 const result = document.querySelector('.result');
