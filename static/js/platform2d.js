@@ -13,30 +13,111 @@ window.onload = function(){
     let max_friction = 8;
     let velX = 0;
     let velY = 0;
-    let boxes = []
+    let boxes = [];
+    let level = 0;
+    let position_checkpoint = [0, 0];
 
-    let map =  [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
-                [1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ,0 ,1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
-                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
-                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,1 ,1],
-                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ,1 ,1],
-                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 ,1 ,1],
-                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
-                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1]]
-    for (var i = 0; i < map.length; i++){
-        for (var j = 0; j < map[i].length; j++){
-            if (map[i][j] === 1){
-                boxes.push({
-                    x: j*50,
-                    y: i*50+50,
-                    width: 50,
-                    height: 50,
-                    color: '#655643'
-                });
+    let map =  [[[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1 ,0 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,0 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,0 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,0 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,0 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,4 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1]],
+                [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1],
+                [1, 6, 6, 6, 6, 6, 6, 6, 1, 1, 1, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 4 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1 ,1 ,1],
+                [1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1 ,1 ,1],
+                [1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1 ,1 ,1],
+                [1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1 ,1 ,1],
+                [1, 3, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 ,1 ,1],
+                [1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 ,1 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1]],
+                [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 ,0 ,6],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0 ,0 ,5],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 ,0 ,6],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0 ,0 ,5],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0 ,0 ,1],
+                [1, 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,6],
+                [1, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
+                [1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1]]
+                ]
+
+    function load_level(n){
+        boxes = [];
+        for (var i = 0; i < map[n].length; i++){
+            for (var j = 0; j < map[n][i].length; j++){
+                switch (map[n][i][j]){
+                    case 1:
+                        boxes.push({
+                            forme: "rect",
+                            x: j*50,
+                            y: i*50+50,
+                            width: 50,
+                            height: 50,
+                            color: '#655643'
+                        });
+                        break;
+                    case 2:
+                        boxes.push({
+                            forme: "rect",
+                            x: j*50,
+                            y: i*50+50,
+                            width: 50,
+                            height: 45,
+                            color: '#DF2714'
+                        });
+                        break;
+                    case 3:
+                        position_checkpoint = [j*50, i*50+50];
+                        break;
+                    case 4:
+                        boxes.push({
+                            forme: "rect",
+                            x: j*50,
+                            y: i*50+50,
+                            width: 50,
+                            height: 45,
+                            color: '#5865F2'
+                        });
+                        break;
+                    case 5:
+                        boxes.push({
+                            forme: "triangle",
+                            x1: j*50,
+                            y1: i*50+50,
+                            x2: j*50 + 50,
+                            y2: i*50+50,
+                            x3: j*50 + 25,
+                            y3: i*50,
+                            color: '#DF2714'
+                        });
+                        break;
+                    case 6:
+                        boxes.push({
+                            forme: "triangle",
+                            x1: j*50,
+                            y1: i*50,
+                            x2: j*50 + 50,
+                            y2: i*50,
+                            x3: j*50 + 25,
+                            y3: i*50+50,
+                            color: '#DF2714'
+                        });
+                        break;
+                }
             }
         }
     }
@@ -51,7 +132,8 @@ window.onload = function(){
         canvas.style.display = "block";
         canvas.style.backgroundColor = "#ddd";
         document.body.appendChild(canvas);
-        player1 = new player([50, 50])
+        load_level(level);
+        player1 = new player([position_checkpoint[0], position_checkpoint[1]])
         clearTimeout(timeout);
         delay = 16;
         game();
@@ -209,7 +291,7 @@ window.onload = function(){
             }
         }
 
-        //check collision wall
+        //check collision to walljump
         var left_colision = ctx.getImageData(player1.x-1, player1.y-20, 1, 1);
         var pixelData = left_colision.data;
         var rouge = pixelData[0];
@@ -234,6 +316,26 @@ window.onload = function(){
         }
 
         ///////////////////////////////////////
+        //check lava collision
+
+        if (player1.colision_lava()){
+            console.log("ouille ça fait mal");
+            player1.x = position_checkpoint[0];
+            player1.y = position_checkpoint[1];
+            velX = 0;
+            velY = 0;
+        }
+
+        //next level collision
+
+        if (player1.colision_next_level()){
+            level ++;
+            load_level(level);
+            player1.x = position_checkpoint[0];
+            player1.y = position_checkpoint[1];
+            velX = 0;
+            velY = 0;
+        }
 
         if (velX > max_friction){
             velX = max_friction;
@@ -266,7 +368,11 @@ window.onload = function(){
         player1.draw();
         for (var i = 0; i < boxes.length; i++){
             ctx.fillStyle = boxes[i].color;
-            drawBlock(ctx, [boxes[i].x, boxes[i].y], boxes[i].width, boxes[i].height);
+            if(boxes[i].forme === "rect"){
+                drawBlock(ctx, [boxes[i].x, boxes[i].y], boxes[i].width, boxes[i].height);
+            }else{
+                drawTriangle(ctx, [boxes[i].x1, boxes[i].y1,boxes[i].x2, boxes[i].y2,boxes[i].x3, boxes[i].y3])
+            }
         }
         timeout = setTimeout(game, delay);
       }
@@ -275,6 +381,16 @@ window.onload = function(){
         const x = position[0];
         const y = position[1] - height; // ajustez la position y pour que les blocs soient dessinés vers le haut
         ctx.fillRect(x, y, width, height);
+    }
+
+    function drawTriangle(ctx, position){
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.moveTo(position[0], position[1]);
+        ctx.lineTo(position[2], position[3]);
+        ctx.lineTo(position[4], position[5]);
+        ctx.closePath();
+        ctx.fill();
     }
 
     function decimaleEnHexadecimal(decimale) {
@@ -301,7 +417,7 @@ window.onload = function(){
             this.x += 5;
         };
         this.colision_left = function(){
-            var left_colision = ctx.getImageData(this.x, this.y-50, 1, 50);
+            var left_colision = ctx.getImageData(this.x-1, this.y-50, 1, 50);
             var pixelData = left_colision.data;
 
             for (var i = 0; i < pixelData.length; i += 4) {
@@ -352,6 +468,34 @@ window.onload = function(){
                 var bleu = pixelData[i + 2];
                 var couleurHexadecimal = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
                 if (couleurHexadecimal === '#655643'){
+                    return true;
+                }
+            }
+        }
+        this.colision_lava = function(){
+            var lava_colision = ctx.getImageData(this.x, this.y-50, 50, 50);
+            var pixelData = lava_colision.data;
+
+            for (var i = 0; i < pixelData.length; i += 4) {
+                var rouge = pixelData[i];
+                var vert = pixelData[i + 1];
+                var bleu = pixelData[i + 2];
+                var couleurHexadecimal = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
+                if (couleurHexadecimal === '#df2714'){
+                    return true;
+                }
+            }
+        }
+        this.colision_next_level = function(){
+            var lava_colision = ctx.getImageData(this.x, this.y-50, 50, 50);
+            var pixelData = lava_colision.data;
+
+            for (var i = 0; i < pixelData.length; i += 4) {
+                var rouge = pixelData[i];
+                var vert = pixelData[i + 1];
+                var bleu = pixelData[i + 2];
+                var couleurHexadecimal = "#" + decimaleEnHexadecimal(rouge) + decimaleEnHexadecimal(vert) + decimaleEnHexadecimal(bleu);
+                if (couleurHexadecimal === '#5865f2'){
                     return true;
                 }
             }
