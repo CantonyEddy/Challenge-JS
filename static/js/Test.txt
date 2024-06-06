@@ -89,3 +89,18 @@ function memoryTest() {
 
 // Exécuter le test de mémoire
 memoryTest();
+
+
+
+
+
+
+
+
+        <div class="board-row">
+            <div class="board-cell"></div>
+            <div class="board-cell"></div>
+            <div class="board-cell"></div>
+            <div class="board-cell"></div>
+            <div class="board-cell"></div>
+        </div>

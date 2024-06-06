@@ -1,57 +1,80 @@
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOM fully loaded and parsed");
-
-    const gameBoard = document.getElementById('game-board');
+document.addEventListener('DOMContentLoaded', function() {
     const startButton = document.getElementById('start-game');
-    let squares = [];
-    let activeSquares = [];
+    const cells = document.querySelectorAll('.board-cell');
+    let activeCells = [];
+    let userSelections = [];
+    let clickCounter = 0;
 
-    function createSquares() {
-        console.log("Creating squares...");
-        const boardRows = document.querySelectorAll('.board-row');
-        boardRows.forEach(row => {
-            const cells = row.querySelectorAll('.board-cell');
-            cells.forEach(cell => {
-                squares.push(cell);
-                cell.addEventListener('click', () => {
-                    toggleActive(cell);
-                });
+    startButton.addEventListener('click', function() {
+        initializeGame();
+    });
+
+    function initializeGame() {
+        // Réinitialise le compteur de clics
+        clickCounter = 0;
+
+        // Génère aléatoirement les carrés qui doivent être allumés
+        activeCells = generateRandomCells(cells.length);
+
+        // Affiche les carrés allumés
+        activateCellsSequentially(activeCells, 0);
+    }
+
+    function generateRandomCells(totalCells) {
+        const activeCells = [];
+        const maxActiveCells = 5; // Nombre maximum de carrés allumés
+        for (let i = 0; i < maxActiveCells; i++) {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * totalCells);
+            } while (activeCells.includes(randomIndex));
+            activeCells.push(randomIndex);
+        }
+        return activeCells;
+    }
+
+    function activateCellsSequentially(activeCells, index) {
+        if (index < activeCells.length) {
+            cells[activeCells[index]].classList.add('active');
+            setTimeout(function() {
+                cells[activeCells[index]].classList.remove('active');
+                activateCellsSequentially(activeCells, index + 1);
+            }, 1000); // 1 seconde d'allumage avant de passer au suivant
+        } else {
+            // Active l'écoute des clics sur les carrés pour que l'utilisateur puisse les sélectionner
+            setTimeout(function() {
+                activateClickListeners();
+            }, 1000); // Attend 1 seconde après l'allumage de tous les carrés avant d'activer les clics
+        }
+    }
+
+    function activateClickListeners() {
+        cells.forEach(function(cell, index) {
+            cell.addEventListener('click', function() {
+                // Vérifie si le compteur de clics a atteint 10
+                clickCounter++;
+                if (clickCounter === 10) {
+                    alert('Perdu!');
+                    // Réinitialise le jeu ou affiche un message d'erreur
+                }
+                // Vérifie si la cellule cliquée est parmi les cellules actives
+                if (activeCells.includes(index)) {
+                    cell.classList.add('selected');
+                    userSelections.push(index);
+                    // Vérifie la victoire après chaque clic
+                    if (checkUserSelection()) {
+                        alert('Gagné!');
+                        // Réinitialise le jeu ou affiche un message de victoire
+                    }
+                }
             });
         });
-        console.log("Squares created:", squares.length);
     }
-
-    function randomlyActivateSquares(numActive) {
-        console.log("Randomly activating squares...");
-        const shuffledSquares = squares.slice().sort(() => 0.5 - Math.random());
-        activeSquares = shuffledSquares.slice(0, numActive);
-        activeSquares.forEach(square => square.classList.add('active'));
-        console.log("Active squares:", activeSquares.length);
+    
+    function checkUserSelection() {
+        // Vérifie si les sélections du joueur correspondent aux cellules actives
+        return userSelections.every(function(selection) {
+            return activeCells.includes(selection);
+        });
     }
-
-    function toggleActive(square) {
-        if (square.classList.contains('active')) {
-            square.classList.remove('active');
-            const index = activeSquares.indexOf(square);
-            activeSquares.splice(index, 1);
-        } else {
-            square.classList.add('active');
-            activeSquares.push(square);
-        }
-        console.log("Toggled square, active squares count:", activeSquares.length);
-    }
-
-    function clearBoard() {
-        console.log("Clearing board...");
-        activeSquares.forEach(square => square.classList.remove('active'));
-        activeSquares = [];
-        console.log("Board cleared");
-    }
-
-    startButton.addEventListener('click', () => {
-        console.log("Start button clicked");
-        createSquares();
-        randomlyActivateSquares(3);
-        setTimeout(clearBoard, 5000);
-    });
 });

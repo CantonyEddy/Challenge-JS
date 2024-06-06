@@ -24,7 +24,7 @@
     align-items: center;
   }
   
-  .instructions {
+  .tic_tac_toe {
     width: 350px;
     margin: 20px auto;
     background-color: white;
@@ -45,7 +45,7 @@
     text-align: center;
   }
 
-  .board {
+  .boards {
     position: relative;
     width: 300px;
     height: 300px;
@@ -71,6 +71,13 @@
     font-size: 2.5rem;
     font-weight: bold;
   }
+  .board {
+    position: relative;
+    width: 300px;
+    height: 250px;
+    border: 1px solid black;
+    border-right: 2px solid black;
+  }
 
   .result {
     position: absolute;
@@ -84,6 +91,6 @@
     font-size: 2.5rem;
     font-weight: bold;
     opacity: 0.7;
-    width: 310px;
-    height: 310px;
+    width: 210px;
+    height: 210px;
   }
