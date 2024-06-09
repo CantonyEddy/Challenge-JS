@@ -10,13 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function initializeGame() {
-        // Réinitialise le compteur de clics
         clickCounter = 0;
-
-        // Génère aléatoirement les carrés qui doivent être allumés
         activeCells = generateRandomCells(cells.length);
-
-        // Affiche les carrés allumés
         activateCellsSequentially(activeCells, 0);
     }
 
@@ -41,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 activateCellsSequentially(activeCells, index + 1);
             }, 1000); // 1 seconde d'allumage avant de passer au suivant
         } else {
-            // Active l'écoute des clics sur les carrés pour que l'utilisateur puisse les sélectionner
             setTimeout(function() {
                 activateClickListeners();
             }, 1000); // Attend 1 seconde après l'allumage de tous les carrés avant d'activer les clics
@@ -55,16 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 clickCounter++;
                 if (clickCounter === 10) {
                     alert('Perdu!');
-                    // Réinitialise le jeu ou affiche un message d'erreur
                 }
                 // Vérifie si la cellule cliquée est parmi les cellules actives
                 if (activeCells.includes(index)) {
                     cell.classList.add('selected');
                     userSelections.push(index);
-                    // Vérifie la victoire après chaque clic
                     if (checkUserSelection()) {
                         alert('Gagné!');
-                        // Réinitialise le jeu ou affiche un message de victoire
                     }
                 }
             });
@@ -72,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function checkUserSelection() {
-        // Vérifie si les sélections du joueur correspondent aux cellules actives
         return userSelections.every(function(selection) {
             return activeCells.includes(selection);
         });
