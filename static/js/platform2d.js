@@ -1,6 +1,8 @@
 window.onload = function(){
     const canvasWidth = 900;
     const canvasHeight = 600;
+    const centreX = canvasWidth / 2;
+    const centreY = canvasHeight / 2;
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext('2d');
     let player1;
@@ -15,14 +17,15 @@ window.onload = function(){
     let velY = 0;
     let boxes = [];
     let level = 0;
+    let live = 10;
     let position_checkpoint = [0, 0];
 
     let map =  [[[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0 ,0 ,1],
                 [1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 ,0 ,1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
                 [1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1 ,0 ,1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,0 ,1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,0 ,1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,0 ,1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ,0 ,1],
@@ -336,6 +339,7 @@ window.onload = function(){
             player1.y = position_checkpoint[1];
             velX = 0;
             velY = 0;
+            live--
         }
 
         //next level collision
@@ -386,8 +390,13 @@ window.onload = function(){
                 drawTriangle(ctx, [boxes[i].x1, boxes[i].y1,boxes[i].x2, boxes[i].y2,boxes[i].x3, boxes[i].y3])
             }
         }
-        timeout = setTimeout(game, delay);
-      }
+        if (live > 0){
+            drawLive();
+            timeout = setTimeout(game, delay);
+        }else{
+            gameOver();
+        }
+    }
 
     function drawBlock(ctx, position, width, height){
         const x = position[0];
@@ -409,6 +418,30 @@ window.onload = function(){
         var hex = decimale.toString(16);
         return hex.length == 1 ? "0" + hex : hex; // Ajoute un zéro devant si nécessaire
     }
+
+    function gameOver(){
+        console.log("game over");
+        ctx.save();
+        ctx.font = "bold 70px sans-serif";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = "5";
+        ctx.strokeText("Game Over", centreX, centreY - 180);
+        ctx.fillText("Game Over", centreX, centreY - 180);
+        ctx.restore();
+    }
+
+    function drawLive(){
+        ctx.save();
+        ctx.font = "bold 20px sans-serif";
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("Life : "+live.toString(), 100, 20);
+        ctx.restore();
+      }
 
     function player(co){
         this.x = co[0];
