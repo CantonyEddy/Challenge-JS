@@ -40,7 +40,6 @@ app.get('/visual_sort', (req, res) => {
 
 app.get('/platformer_2d', (req, res) => {
     res.sendFile(path.join(__dirname, 'template/platform2d.html'));
-    jeuBonus1
 });
 
 // Démarrer le serveur

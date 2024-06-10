@@ -56,3 +56,17 @@ body {
     text-align: center;
     font-weight: bold;
 }
+
+.title a{
+    background-color: #696969;
+    color: white;
+    padding: 3%;
+    border: 1px solid black;
+    border-radius: 10%;
+    transition-duration: .5s;
+}
+
+.title a:hover{
+    background-color: white;
+    color: #696969;
+}
