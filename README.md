@@ -28,7 +28,7 @@ Bienvenue sur le projet **Challenge-JS** ! Ce site propose une collection de jeu
 
 1. Clonez le dépôt :
    ```bash
-   [git clone https://github.com/RYUJINC/Challenge-JS.git](https://github.com/RYUJINC/Challenge-JS.git)
+   git clone https://github.com/RYUJINC/Challenge-JS.git
 
 ## Usage
 Pour utiliser ce site, ouvrez votre navigateur préféré et rendez-vous sur http://localhost:3000. Vous pourrez alors accéder aux différents jeux proposés.
