@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #970dd2;
+    background-color: white;
 }
 
 .container {
@@ -11,8 +11,8 @@ body {
 }
 
 .title-block {
-    background-color: #4CAF50;
-    color: white;
+    background: linear-gradient(to bottom, #D0D0D0, #9D9D9D);
+    color: black;
     text-align: center;
     padding: 20px;
     margin-bottom: 20px;
@@ -25,7 +25,10 @@ body {
 }
 
 .block {
-    background-color: #ffffff;
+    height: 200px;
+    width: 350px;
+    background: linear-gradient(to bottom, #D0D0D0, #9D9D9D);
+    max-width: 100%;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -35,6 +38,8 @@ body {
 
 .image-container {
     text-align: center;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .image-container img {
