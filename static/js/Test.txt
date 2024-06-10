@@ -1,0 +1,106 @@
+let currentPlayer = 'X';
+let cells = document.querySelectorAll('.cell');
+let board = ['', '', '', '', '', '', '', '', ''];
+
+function cellClicked(index) {
+    if (board[index] === '' && !checkWinner()) {
+        board[index] = currentPlayer;
+        cells[index].innerText = currentPlayer;
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        if (checkWinner()) {
+            alert(`${currentPlayer === 'X' ? 'O' : 'X'} wins!`);
+        } else if (board.every(cell => cell !== '')) {
+            alert("It's a draw!");
+        }
+    }
+}
+
+function resetBoard() {
+    board = ['', '', '', '', '', '', '', '', ''];
+    cells.forEach(cell => cell.innerText = '');
+    currentPlayer = 'X';
+}
+
+function checkWinner() {
+    const winConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    for (let condition of winConditions) {
+        const [a, b, c] = condition;
+        if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Fonction pour générer un tableau de nombres aléatoires
+function generateArray(size) {
+    const array = [];
+    for (let i = 0; i < size; i++) {
+        array.push(Math.random());
+    }
+    return array;
+}
+
+// Fonction pour vider la mémoire
+function clearMemory() {
+    // Affectez null aux variables contenant des données pour libérer la mémoire
+    array = null;
+}
+
+// Test de mémoire
+function memoryTest() {
+    const arraySize = 1000000; // Taille du tableau
+    let array = generateArray(arraySize); // Générer un tableau de nombres aléatoires
+
+    // Afficher la consommation de mémoire avant de vider
+    console.log("Mémoire utilisée avant de vider : " + (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + " MB");
+
+    // Vider la mémoire
+    clearMemory();
+
+    // Afficher la consommation de mémoire après avoir vidé
+    console.log("Mémoire utilisée après avoir vidé : " + (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + " MB");
+}
+
+// Exécuter le test de mémoire
+memoryTest();
+
+
+
+
+
+
+
+
+        <div class="board-row">
+            <div class="board-cell"></div>
+            <div class="board-cell"></div>
+            <div class="board-cell"></div>
+            <div class="board-cell"></div>
+            <div class="board-cell"></div>
+        </div>

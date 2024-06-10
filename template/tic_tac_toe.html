@@ -2,10 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Morpion</title>
 </head>
 <body>
-    <h1>route</h1>
+    <div class="instructions">
+        <div class="intro">
+            <button id="startButton">Start Game</button>
+            <p>Click on a square to place your X or O</p>
+            <p>Player 1: X</p>
+            <p>Player 2: O</p>
+            <label for="gameMode">Select Game Mode:</label>
+            <select id="gameMode">
+                <option value="playerVsPlayer">1 vs 1</option>
+                <option value="playerVsComputer">1 vs Computer</option>
+            </select>
+        </div>
+        <div class="game">
+            <div class="board">
+                <div class="board-row">
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                </div>
+                <div class="board-row">
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                </div>
+                <div class="board-row">
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                    <div class="board-cell"></div>
+                </div>
+            </div>
+        </div>
+        <div class="result"></div>
+        <div class="turns">
+            <div class="turn">Player 1</div>
+            <button onclick="startGame()" class="restart">Restart</button>
+        </div>
+    </div>
+    <script src="../static/js/Tictactoe.js"></script>
 </body>
 </html>
