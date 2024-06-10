@@ -59,4 +59,4 @@ Merci aux contributeur : Alenzo AMICO, Eddy CANTONY, Alexandre ECHAZARRETA
 Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
 
 ## Contact
-Pour toute question ou suggestion, veuillez ouvrir une issue sur le dépôt GitHub ou me contacter par discord via le server [Server KALIX](https://discord.gg/Dmh6wHaKvD)
+Pour toute question ou suggestion, veuillez ouvrir une issue sur le dépôt GitHub ou me contacter par discord via le server [KALIX](https://discord.gg/Dmh6wHaKvD)
