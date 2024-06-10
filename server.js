@@ -38,6 +38,7 @@ app.get('/visual_sort', (req, res) => {
     res.sendFile(path.join(__dirname, 'template/visual_sort.html'));
 });
 
+<<<<<<< HEAD
 // Route pour traiter la demande de connexion
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
@@ -50,6 +51,10 @@ app.post('/login', (req, res) => {
         // Informations d'identification incorrectes, afficher un message d'erreur par exemple
         res.send('Nom d\'utilisateur ou mot de passe incorrect.');
     }
+=======
+app.get('/platformer_2d', (req, res) => {
+    res.sendFile(path.join(__dirname, 'template/platform2d.html'));
+>>>>>>> jeuBonus1
 });
 
 // Démarrer le serveur
